@@ -6,7 +6,7 @@ if($rd!=''){
 	include_once ("../js/class.php"); 
 	include_once("../js/globalinc.php");
 	include_once ("../js/loginpconf.php");
-	
+	include_once '../es/app/controllers/filterByFecha.php';
 	if($_SERVER['REMOTE_ADDR'] =='181.171.232.97'){
 	echo "NOMBRE2: ".$_COOKIE['tu_set_usu']."<br>";
 	}
@@ -117,10 +117,10 @@ $(document).ready(function() {
               cache: false,
               success: function(XMR_SEARCH) {
                  // $('#list_pac').html(XMR_SEARCH);
-                  console.log(XMR_SEARCH);
+                  //console.log(XMR_SEARCH);
               },
               error: function(XMR_ERR) {
-                  console.error(XMR_ERR);
+                  //console.error(XMR_ERR);
               }
            });
         });
@@ -132,28 +132,104 @@ if($rd!='' && $val!=''){
 	if($_SERVER['REMOTE_ADDR'] == '181.171.232.97'){
 		echo utf8_encode($val);
 	}
-        //echo $val;
-        if (ctype_digit((int)$val) && (strlen($val >= 7))) {
+        /*
+         * Parametros inteligente
+         */
+        if ($_GET['canSum'] != 'false') {
+            $canSearchByTime = true;
+        } else {
+            $canSearchByTime = false;
+        }
+        $fec_filter;
+        // echo $_GET['time'];
+        if (ctype_digit((int)$val) && (strlen($val >= 7))) { // Comprueba que es un DNI
               $addfilters = " (us_dni LIKE '%$val%')&& ";
+                  if ($canSearchByTime) {                 
+                  // Entonces buscamos este usuario en tu turnos
+                  $date = new filtroFecha();
+                  $clientTurno = $date->UsuarioPorDni($val);
+                  // Verificamos si consigue el usuario
+                  if ($clientTurno != null) {
+                      //Recorremos el objeto de cliente
+                      foreach ($clientTurno as $cli) {
+                          /*
+                           * Buscamos el primer turno de ese cliente
+                           */
+                          $turno = $date->getTurnosUsuario($cli->us_id, $empid);
+                          if ($turno != false) {
+                              // Significa que consigue turnos
+                              // Recorremos el Turno para sacarle la fecha como Objeto
+                              foreach ($turno as $fechaTurno) {      
+                                 // echo $fechaTurno->tu_fec;
+                                  /*
+                                   * Obtenemos al ultima fecha y le sumamos el select
+                                   */
+                                  $creaFecha = strtotime("+{$_GET['time']} month", strtotime($fechaTurno->tu_fec));
+                                  $fechaBusqueda = date('Y-m-j', $creaFecha);
+                                  $fec_filter = "&& tu_fec >= '{$fechaBusqueda}'";
+                                  //echo $fechaBusqueda;
+                              }                            
+                          } else {
+                              $fec_filter = '';
+                          }
+                      }
+                  }
+                  $date->closeConnection();
+              }
         } else {
          if (filter_var($val, FILTER_VALIDATE_EMAIL)) {
              $addfilters = " (us_mail LIKE '%$val%')&& ";
+                  if ($canSearchByTime) {                 
+                  $date = new filtroFecha();
+                  $clientTurno = $date->UsuarioPorEmail($val);
+                  if ($clientTurno != null) {
+                      foreach ($clientTurno as $cli) {
+                          $turno = $date->getTurnosUsuario($cli->us_id, $empid);
+                          if ($turno != false) {
+                              foreach ($turno as $fechaTurno) {      
+                                  $creaFecha = strtotime("+{$_GET['time']} month", strtotime($fechaTurno->tu_fec));
+                                  $fechaBusqueda = date('Y-m-j', $creaFecha);
+                                  $fec_filter = "&& tu_fec >= '{$fechaBusqueda}'";
+                                  //echo $fechaBusqueda;
+                              }                             
+                          } else {
+                              $fec_filter = '';
+                          }
+                      }
+                  }
+                  $date->closeConnection();
+              }             
          } else {
-              $addfilters = " (us_nom LIKE '%$val%') && ";             
+              $addfilters = " (us_nom LIKE '%$val%') && ";
+                  if ($canSearchByTime) {                 
+                  $date = new filtroFecha();
+                  $clientTurno = $date->UsuarioPorNombre($val);
+                  if ($clientTurno != null) {
+                      foreach ($clientTurno as $cli) {
+                          $turno = $date->getTurnosUsuario($cli->us_id, $empid);
+                          if ($turno != false) {
+                              foreach ($turno as $fechaTurno) {      
+                                  $creaFecha = strtotime("+{$_GET['time']} month", strtotime($fechaTurno->tu_fec));
+                                  $fechaBusqueda = date('Y-m-j', $creaFecha);
+                                  $fec_filter = "&& tu_fec >= '{$fechaBusqueda}'";
+                              }                             
+                          } else {
+                              $fec_filter = '';
+                          }
+                      }
+                  }
+                  $date->closeConnection();
+              }
          }
-        }
- 	//$addfilters = " (us_nom like '%$val%' || us_mail like '%$val%' || us_dni like '%$val%') && ";        
-         
-
+       }
 }else if($rd!='' && $val2!=''){
 	$val2 = explode("_",$val2);
 	$val2 = $val2[1];
 	$addfilters = " us_nom like '$val2%' && ";
 }
-
-$getpa = @mysql_query("SELECT *, (select count(*) from tu_turnos WHERE emp_id='$empid' && us_id=us.us_id && tu_estado='ALTA') totu FROM tu_users us left join tu_usdat ud on us_id=ud.ud_usid "
+$getpa = @mysql_query("SELECT *, (select count(*) from tu_turnos WHERE emp_id='$empid' && us_id=us.us_id && tu_estado='ALTA' ) totu FROM tu_users us left join tu_usdat ud on us_id=ud.ud_usid "
         . "WHERE ".$addfilters." (us_id IN(SELECT tp_usid FROM tu_emp_cli WHERE tp_empid='$empid' && tp_usid=us.us_id) || us_id IN(SELECT us_id FROM tu_turnos 
-WHERE emp_id='$empid' && us_id=us.us_id)) order by us_nom ", $conn);
+WHERE emp_id='$empid' && us_id=us.us_id $fec_filter)) order by us_nom ", $conn);
 if($_SERVER['REMOTE_ADDR'] == '181.171.230.210'){
 			/*echo "SELECT *, (select count(*) from tu_turnos WHERE emp_id='$empid' && us_id=us.us_id && tu_estado='ALTA') totu FROM tu_users us left join tu_usdat ud on us_id=ud.ud_usid WHERE ".$addfilters." (us_id IN(SELECT tp_usid FROM tu_emp_cli WHERE tp_empid='$empid' && tp_usid=us.us_id) || us_id IN(SELECT us_id FROM tu_turnos 
 WHERE emp_id='$empid' && us_id=us.us_id)) order by us_nom ";*/

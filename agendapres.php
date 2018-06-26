@@ -463,22 +463,41 @@ $(document).ready(function() {
          data: $('#buscapacAJAX').serialize(),
          cache: false,
          success: function(XMR_RESPONSE) {
+             //console.log(XMR_RESPONSE);
              // alert(XMR_RESPONSE);
               //$('#list_pac').show();
               //$('body').append(XMR_RESPONSE);
          },
          error: function(ERR_) {
-             console.error((ERR_));
+             // console.error((ERR_));
          } 
       });
       return false;
    });
+   $('#changeTime').change( function( handler )  {
+       if ($( this ).val() !== 'false' && $( this ).val() !== 'all') {
+           $('#getHour').val( $( this ).val() );
+           $('#canSum').val('true');
+       } else {
+           $('#canSum').val('false');
+       }
+   });
 });
 </script>
-<form action="../fs/list_pac.php " method="post" id="buscapacAJAX">
-  <input name="pac_nom" id="pac_nom" type="text" class="inpsm_u tooltip" title="Nombre / Email">
+<form action="../fs/list_pac2.php " method="post" id="buscapacAJAX">
+    <input placeholder="Nombre | Email o DNI" name="pac_nom" id="pac_nom" type="text" class="inpsm_u tooltip" title="Nombre / Email">
+  <select id="changeTime" required class="form-control">
+        <option value="false">Todos</option>
+        <option value="1" >1 mes</option>
+        <option value="3" >3 meses</option>
+        <option value="6">6 meses</option>
+        <option value="12">12 meses</option>
+        <option value="all">Ultimo turno</option>
+  </select>
+  <input type="hidden" name="hour" id="getHour" value="">
+  <input type="hidden" value="" id="canSum"  id="sumHour">
   <input name="empid" type="hidden" value="<?php echo $empid ?>">
-  <input type="submit" name="buspac" id="buspac" class="fsub" value="Buscar">
+  <input style="margin-top:2px" type="submit" name="buspac" id="buspac" class="fsub" value="Buscar">
 </form>
 <!--<form action="../fs/list_pac.php" method="post" name="buscapac" id="buscapac" onSubmit="return false;">
   <input name="pac_nom" id="pac_nom" type="text" class="inpsm_u tooltip" title="Nombre / Email">

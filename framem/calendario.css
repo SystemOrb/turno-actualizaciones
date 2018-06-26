@@ -1,0 +1,260 @@
+.cal {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 11px;
+	padding: 2px 2px 1px 2px;
+	border: 1px solid #CCCCCC;
+	background-attachment: scroll;
+	background-image: url(cal/imagenes/calback.png);
+	background-repeat: no-repeat;
+	background-position: center top;
+}
+.cal_dt {
+	color: #3871A9;
+	line-height: 22px;
+	height: 22px;
+	width: 22px;
+	text-align: center;
+	font-size: 11px;
+}
+.cal_nodia {
+	color: #666666;
+	background-color: #DEDEDE;
+	line-height: 22px;
+	height: 22px;
+	width: 22px;
+	text-align: center;
+}
+.cal_nodianh {
+	color: #666666;
+	background-color: #BEBEBE;
+	line-height: 22px;
+	height: 22px;
+	width: 22px;
+	text-align: center;
+	/*text-decoration: line-through;*/
+}
+.cal_nodianh2 {
+	color: #666666;
+	background-color: #BEBEBE;
+	line-height: 22px;
+	height: 22px;
+	width: 22px;
+	text-align: center;
+	text-decoration: none;
+}
+.cal_diaoc {
+	font-size: 9px;
+	color: #333333;
+	background-color: #FFAD99;
+	line-height: 22px;
+	height: 22px;
+	width: 22px;
+	text-align: center;
+}
+.cal_diaocmed{
+	font-size: 9px;
+	color: #333333;
+	background-color: #D8DB9B;
+	line-height: 22px;
+	height: 22px;
+	width: 22px;
+	text-align: center;
+	background-attachment: scroll;
+	background-image: url(imagenes/liboc.png);
+	background-repeat: no-repeat;
+	background-position: center center;
+}
+.cal_diaocmed a{
+	font-size: 10px;
+	color: #333333;
+	background-color: #D8DB9B;
+	line-height: 22px;
+	height: 22px;
+	width: 22px;
+	text-align: center;
+	text-decoration:none;
+	display:block;
+	background-attachment: scroll;
+	background-image: url(imagenes/liboc.png);
+	background-repeat: no-repeat;
+	background-position: center center;
+}
+.cal_diaocmed a:hover{
+	color: #333333;
+	background-color: #C2D6EB;
+	background-image: none;
+}
+.cal_dia {
+	font-size: 9px;
+	color: #333333;
+	background-color: #D8DB9B;
+	line-height: 22px;
+	height: 22px;
+	width: 22px;
+	text-align: center;
+}
+.cal_dia a{
+	color: #333333;
+	text-decoration: none;
+	display:block;
+}
+.cal_dia a:hover{
+	color: #333333;
+	background-color: #C2D6EB;
+}
+.cal_diasel {
+	font-size: 9px;
+	color: #FFFFFF;
+	background-color: #508AC5;
+	line-height: 22px;
+	height: 22px;
+	width: 22px;
+	text-align: center;
+}
+.cal_diasel a{
+	font-size: 9px;
+	color: #FFFFFF;
+	background-color: #508AC5;
+	line-height: 22px;
+	height: 22px;
+	width: 22px;
+	text-align: center;
+	text-decoration: none;
+	display:block;
+}
+.cal_diabk {
+	font-size: 9px;
+	color: #B9B9B9;
+	background-color: #CCCCCC;
+	line-height: 22px;
+	height: 22px;
+	width: 22px;
+	text-align: center;
+}
+.datetit{
+	font-size: 12px;
+	color: #6699CC;
+}
+.daysdiv{
+	font-family: "Trebuchet MS";
+	font-size: 11px;
+	color: #000000;
+	border: 0;
+}
+.bookinginf{
+	font-family: "Trebuchet MS";
+	font-size: 11px;
+	color: #000000;
+	border: 0;
+}
+.bookinginf td{
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+	border-bottom-color: #E1E1E1;
+	padding: 2px;
+}
+.cal_diahoy {
+	font-size: 9px;
+	color: #333333;
+	background-color: #D8DB9B;
+	line-height: 14px;
+	height: 14px;
+	width: 14px;
+	text-align: center;
+}
+.cal_diahoy a{
+	color: #333333;
+	text-decoration: none;
+	display:block;
+	border: 1px solid #000000;
+}
+.cal_diahoy a:hover{
+	color: #333333;
+	background-color: #C2D6EB;
+}
+.cal_diaochoy {
+	font-size: 9px;
+	color: #333333;
+	background-color: #FFAD99;
+	line-height: 14px;
+	height: 14px;
+	width: 14px;
+	text-align: center;
+	border: 1px solid #000000;
+}
+.cal_diaochoymed {
+	font-size: 9px;
+	color: #333333;
+	background-color: #FFAD99;
+	line-height: 14px;
+	height: 14px;
+	width: 14px;
+	text-align: center;
+	border: 1px solid #000000;
+	background-attachment: scroll;
+	background-image: url(imagenes/liboc.png);
+	background-repeat: no-repeat;
+	background-position: center center;
+}
+.cal_diaochoymed a{
+	font-size: 9px;
+	color: #FFFFFF;
+	background-color: #508AC5;
+	line-height: 14px;
+	height: 14px;
+	width: 14px;
+	text-align: center;
+	text-decoration: none;
+	display:block;
+	border: 1px solid #000000;
+}
+.cal_diaselhoy {
+	font-size: 9px;
+	color: #FFFFFF;
+	background-color: #508AC5;
+	line-height: 14px;
+	height: 14px;
+	width: 14px;
+	text-align: center;
+}
+.cal_diaselhoy a{
+	font-size: 9px;
+	color: #FFFFFF;
+	background-color: #508AC5;
+	line-height: 14px;
+	height: 14px;
+	width: 14px;
+	text-align: center;
+	text-decoration: none;
+	display:block;
+	border: 1px solid #000000;
+}
+.recu{
+	font-size: 1px;
+	line-height: 6px;
+	padding: 1px;
+	height: 6px;
+	width: 6px;
+	border: 1px solid #CCCCCC;
+}
+.rec_doc{
+	line-height: 6px;
+	height: 6px;
+	width: 6px;
+	background-color: #FFAD99;
+	display:block;
+}
+.rec_dse{
+	line-height: 6px;
+	height: 6px;
+	width: 6px;
+	background-color: #508AC5;
+	display:block;
+}
+.rec_dia{
+	line-height: 6px;
+	height: 6px;
+	width: 6px;
+	background-color: #D8DB9B;
+	display:block;
+}
